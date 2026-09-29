@@ -1,5 +1,5 @@
 import os
-
+from pathlib import Path
 import sqlite3
 from datetime import datetime
 
@@ -13,8 +13,8 @@ from questions import QUESTIONS
 app = FastAPI(title="Business Talks")
 app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
-DB_FILE = os.environ.get("DB_FILE", "business_talks.db")
-
+DB_FILE = os.getenv("DB_FILE", "data/business_talks.db")
+Path(DB_FILE).parent.mkdir(parents=True, exist_ok=True)
 
 def init_db():
     connection = sqlite3.connect(DB_FILE)
