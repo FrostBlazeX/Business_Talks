@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Business Talks — Results</title>
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+  <body>
+    <main class="container">
+      <h1>Results</h1>
+      <p class="count">{{ total_submissions }} response(s) so far</p>
+      <p class="intro"><a href="/">Add another response</a></p>
+
+      {% for section, items in sections.items() %}
+      <h2 class="section-title">{{ section }}</h2>
+      {% for item in items %}
+      <div class="result">
+        <h3>{{ item.number }}. {{ item.question.text }}</h3>
+        {% if item.kind == "poll" %} {% if item.total_votes == 0 %}
+        <p class="note"><em>No answers yet.</em></p>
+        {% else %} {% for t in item.tallies %}
+        <div class="bar-label">
+          <span>{{ t.option }}</span><span>{{ t.count }} ({{ t.pct }}%)</span>
+        </div>
+        <div class="bar-track">
+          <div class="bar-fill" style="width: {{ t.pct }}%;"></div>
+        </div>
+        {% endfor %} {% endif %} {% else %} {% if item.responses %} {% for r in
+        item.responses %}
+        <div class="resp">
+          {{ r.text }} <span class="who">— {{ r.name }}</span>
+        </div>
+        {% endfor %} {% else %}
+        <p class="note"><em>No answers yet.</em></p>
+        {% endif %} {% endif %}
+      </div>
+      {% endfor %} {% endfor %}
+    </main>
+  </body>
+</html>

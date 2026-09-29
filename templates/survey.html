@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Business Talks — Survey</title>
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+  <body>
+    <main class="container">
+      <h1>Business Talks</h1>
+      <p class="intro">Tell us what you'd want from a great sports bar.</p>
+      <p class="count">{{ total }} quick questions</p>
+
+      <form action="/submit" method="post">
+        <p class="note">
+          <em
+            >Team &amp; admins: add your name so we can attribute your answers.
+            Everyone else, leave it blank to stay anonymous.</em
+          >
+        </p>
+        <label class="name-field"
+          >Your name:
+          <input type="text" name="respondent_name" />
+        </label>
+
+        {% for section, questions in sections.items() %}
+        <h2 class="section-title">{{ section }}</h2>
+        {% for q in questions %}
+        <fieldset>
+          <legend>{{ q.number }}. {{ q.text }}</legend>
+          {% if q.type == "single" %} {% for option in q.options %}
+          <label class="choice"
+            ><input type="radio" name="{{ q.id }}" value="{{ option }}" /> {{
+            option }}</label
+          >
+          {% endfor %} {% elif q.type == "multi" %} {% for option in q.options
+          %}
+          <label class="choice"
+            ><input type="checkbox" name="{{ q.id }}" value="{{ option }}" /> {{
+            option }}</label
+          >
+          {% endfor %} {% elif q.type == "text" %}
+          <textarea name="{{ q.id }}" rows="3"></textarea>
+          {% endif %}
+        </fieldset>
+        {% endfor %} {% endfor %}
+
+        <button type="submit">Submit my answers</button>
+      </form>
+    </main>
+  </body>
+</html>
