@@ -15,6 +15,8 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 DB_FILE = os.getenv("DB_FILE", "data/business_talks.db")
 Path(DB_FILE).parent.mkdir(parents=True, exist_ok=True)
+print(f"DB path: {Path(DB_FILE).resolve()}", flush=True)
+
 
 def init_db():
     connection = sqlite3.connect(DB_FILE)
