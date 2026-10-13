@@ -3,7 +3,9 @@ from pathlib import Path
 import sqlite3
 from datetime import datetime
 
-from fastapi import FastAPI, Request
+import secrets
+from fastapi import FastAPI, Request, Depends, status
+from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from fastapi.responses import RedirectResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
@@ -16,6 +18,22 @@ templates = Jinja2Templates(directory="templates")
 DB_FILE = os.getenv("DB_FILE", "data/business_talks.db")
 Path(DB_FILE).parent.mkdir(parents=True, exist_ok=True)
 print(f"DB path: {Path(DB_FILE).resolve()}", flush=True)
+
+security = HTTPBasic()
+ADMIN_USER = os.environ.get("ADMIN_USER", "admin")
+ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD", "changeme")
+
+
+def require_admin(credentials: HTTPBasicCredentials = Depends(security)):
+    user_ok = secrets.compare_digest(credentials.username, ADMIN_USER)
+    pass_ok = secrets.compare_digest(credentials.password, ADMIN_PASSWORD)
+    if not (user_ok and pass_ok):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Not authorized",
+            headers={"WWW-Authenticate": "Basic"},
+        )
+    return credentials.username
 
 
 def init_db():
@@ -85,7 +103,7 @@ async def submit(request: Request):
 
 
 @app.get("/results")
-def results(request: Request):
+def results(request: Request, admin: str = Depends(require_admin)):
     connection = sqlite3.connect(DB_FILE)
     connection.row_factory = sqlite3.Row
     cursor = connection.cursor()
