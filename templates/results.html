@@ -28,9 +28,7 @@
         </div>
         {% endfor %} {% endif %} {% else %} {% if item.responses %} {% for r in
         item.responses %}
-        <div class="resp">
-          {{ r.text }} <span class="who">— {{ r.name }}</span>
-        </div>
+        <div class="resp">{{ r.text }}</div>
         {% endfor %} {% else %}
         <p class="note"><em>No answers yet.</em></p>
         {% endif %} {% endif %}

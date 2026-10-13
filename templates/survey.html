@@ -13,17 +13,6 @@
       <p class="count">{{ total }} quick questions</p>
 
       <form action="/submit" method="post">
-        <p class="note">
-          <em
-            >Team &amp; admins: add your name so we can attribute your answers.
-            Everyone else, leave it blank to stay anonymous.</em
-          >
-        </p>
-        <label class="name-field"
-          >Your name:
-          <input type="text" name="respondent_name" />
-        </label>
-
         {% for section, questions in sections.items() %}
         <h2 class="section-title">{{ section }}</h2>
         {% for q in questions %}

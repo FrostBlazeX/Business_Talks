@@ -56,7 +56,7 @@ def survey(request: Request):
 @app.post("/submit")
 async def submit(request: Request):
     form = await request.form()
-    name = (form.get("respondent_name") or "").strip() or None
+    name = None
 
     connection = sqlite3.connect(DB_FILE)
     cursor = connection.cursor()
