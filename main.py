@@ -149,6 +149,16 @@ def results(request: Request, admin: str = Depends(require_admin)):
     )
 
 
+@app.post("/admin/reset")
+def reset(admin: str = Depends(require_admin)):
+    connection = sqlite3.connect(DB_FILE)
+    connection.execute("DELETE FROM answers")
+    connection.execute("DELETE FROM submissions")
+    connection.commit()
+    connection.close()
+    return {"status": "cleared"}
+
+
 @app.get("/thanks")
 def thanks(request: Request):
     return templates.TemplateResponse(request, "thanks.html", {})
