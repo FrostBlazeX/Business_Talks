@@ -19,7 +19,7 @@ QUESTIONS = [
     {"id": "travel_distance", "section": "Your Sports Habits", "type": "single",
      "text": "How far would you travel to visit a sports bar?",
      "options": ["Under 1 mile", "1-3 miles", "3-5 miles", "5-10 miles", "Over 10 miles"]},
-    { "id": "spend", "section": "Your Sports Habits", "type": "single", "text": "How much would you normally spend on a visit?", "options": [ "Under ₦18,000", "₦18,000–₦35,500", "₦35,500–₦62,000", "₦62,000–₦89,000", "Over ₦89,000" ] }
+    { "id": "spend", "section": "Your Sports Habits", "type": "single", "text": "How much would you normally spend on a visit?", "options": [ "Under ₦18,000", "₦18,000–₦35,500", "₦35,500–₦62,000", "₦62,000–₦89,000", "Over ₦89,000" ] },
 
     {"id": "atmosphere", "section": "What You Want", "type": "single",
      "text": "What atmosphere do you prefer?",
